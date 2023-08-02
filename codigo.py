@@ -9,6 +9,8 @@ height = 800
 
 background = pygame.image.load('stars.png')
 background = pygame.transform.scale(background, (width,height))
+background_inicial = pygame.image.load('startbackground.png')
+background_inicial = pygame.transform.scale(background_inicial,(width,height))
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Breakout")
 #Planetas----------------------------------------------------------------------------------
@@ -33,9 +35,9 @@ branco = pygame.Color('grey100')
 preto = pygame.Color('grey0')
 Inicio_font = pygame.font.Font('Kaph-Italic.ttf', 60)
 barra_font = pygame.font.Font('Kaph-Italic.ttf', 10)
-ini_txt = Inicio_font.render('Breakout', False, preto)
-Barra_txt = Inicio_font.render('Pressione Espaço', False, preto)
-Barra2_txt = Inicio_font.render('para começar', False, preto)
+ini_txt = Inicio_font.render('Breakout', False, branco)
+Barra_txt = Inicio_font.render('Pressione Espaço', False, branco)
+Barra2_txt = Inicio_font.render('para começar', False, branco)
 #TELA_INICIAL-----------------------------------------------------------------------------------------
 Inicial = True
 while Inicial:
@@ -46,6 +48,7 @@ while Inicial:
             if event.key == pygame.K_SPACE:
                 Inicial = False
     window.fill(branco)
+    window.blit(background_inicial,(0,0))
     window.blit(ini_txt, (200, 100 ))
     window.blit(Barra_txt, (30, 500))
     window.blit(Barra2_txt, (90, 600))
