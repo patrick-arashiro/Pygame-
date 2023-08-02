@@ -2,11 +2,11 @@ import pygame
 import random
 pygame.init()
 
-weight = 800
+width = 800
 height = 800
 
 background = pygame.image.load('stars.png')
-window = pygame.display.set_mode((weight, height))
+window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Breakout")
 #Planetas----------------------------------------------------------------------------------
 width_planets = 25
