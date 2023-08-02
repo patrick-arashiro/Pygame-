@@ -50,6 +50,14 @@ while Inicial:
     window.blit(Barra2_txt, (90, 600))
     pygame.display.update()
 clock = pygame.time.Clock()
+#Planetas e escolhido---------------------------------------------------
+terra = Planetas(terra_img)
+lava = Planetas(lava_img)
+gelo = Planetas(Ice_img)
+black_hole = Planetas(black_hole_img)
+baren = Planetas(baren_img)
+planetas_lista = [terra, lava, gelo, black_hole, baren, ]
+escolhido = random.choice(planetas_lista) 
 #Loop_principal--------------------------------------------------------------
 game = True
 while game and Inicial==False:
