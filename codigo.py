@@ -1,6 +1,7 @@
 import pygame
 import random
 from classe_bolas import Planetas
+from classe_blocos import Bloco
 pygame.init()
 
 width = 800
@@ -50,6 +51,7 @@ while Inicial:
     window.blit(Barra2_txt, (90, 600))
     pygame.display.update()
 clock = pygame.time.Clock()
+FPS = 50
 #Planetas e escolhido---------------------------------------------------
 terra = Planetas(terra_img)
 lava = Planetas(lava_img)
@@ -59,10 +61,11 @@ baren = Planetas(baren_img)
 planetas_lista = [terra, lava, gelo, black_hole, baren, ]
 escolhido = random.choice(planetas_lista) 
 #CHAMANDO AS CLASSES----------------------------------------------------------
-ball = Planetas(escolhido)
+ball = escolhido
 #Loop_principal--------------------------------------------------------------
 game = True
 while game and Inicial==False:
+    clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game = False
