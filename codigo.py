@@ -1,11 +1,13 @@
 import pygame
 import random
+from classe_bolas import Planetas
 pygame.init()
 
 width = 800
 height = 800
 
 background = pygame.image.load('stars.png')
+background = pygame.transform.scale(background, (width,height))
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Breakout")
 #Planetas----------------------------------------------------------------------------------
@@ -48,5 +50,13 @@ while Inicial:
     window.blit(Barra2_txt, (90, 600))
     pygame.display.update()
 clock = pygame.time.Clock()
-
+#Loop_principal--------------------------------------------------------------
+game = True
+while game and Inicial==False:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game = False
+    window.fill(branco)
+    window.blit(background, (0,0))
+    pygame.display.update()
 gameover = False
