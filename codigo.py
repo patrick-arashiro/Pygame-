@@ -63,6 +63,14 @@ black_hole = Planetas(black_hole_img)
 baren = Planetas(baren_img)
 planetas_lista = [terra, lava, gelo, black_hole, baren, ]
 escolhido = random.choice(planetas_lista) 
+#Funções ---------------------------------------------------------------------
+bricks = []
+def init():
+    global bricks
+    bricks = []
+    for i in range(6):
+        for j in range(10):
+            bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, (120, 205, 250)))
 #CHAMANDO AS CLASSES----------------------------------------------------------
 ball = escolhido
 #Loop_principal--------------------------------------------------------------
