@@ -1,7 +1,7 @@
 import pygame,random
 
 class Bloco(object):
-    def _init_(self, x, y, w, h, color):
+    def __init__(self, x, y, w, h, color):
         self.x = x
         self.y = y
         self.w = w

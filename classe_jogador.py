@@ -1,6 +1,6 @@
 import pygame
 class jogador(object):
-    def init(self, x, y, w, h, color):
+    def __init__(self, x, y, w, h, color):
         self.x = x
         self.y = y
         self.w = w

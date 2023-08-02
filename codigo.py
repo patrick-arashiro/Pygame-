@@ -2,6 +2,7 @@ import pygame
 import random
 from classe_bolas import Planetas
 from classe_blocos import Bloco
+from classe_jogador import jogador
 pygame.init()
 
 width = 800
@@ -54,7 +55,7 @@ while Inicial:
     window.blit(Barra2_txt, (90, 600))
     pygame.display.update()
 clock = pygame.time.Clock()
-FPS = 50
+FPS = 30
 #Planetas e escolhido---------------------------------------------------
 terra = Planetas(terra_img)
 lava = Planetas(lava_img)
@@ -71,8 +72,32 @@ def init():
     for i in range(6):
         for j in range(10):
             bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, (120, 205, 250)))
+gameover = False
+def redrawGameWindow():
+    window.blit(background, (0,0))
+    Jogador.draw(window)
+    for ball in bolas:
+        ball.draw(window)
+    for b in bricks:
+        b.draw(window)
+
+    font = pygame.font.SysFont('comicsans', 50)
+
+    if gameover:
+        if len(bricks) == 0:
+            resText = font.render("Parabéns!", 1, (255, 255, 255))
+        else:
+            resText = font.render("Perdeu!", 1, (255, 255, 255))
+        window.blit(resText, ((width//2 - resText.get_width()//2), height//2 - resText.get_height()//2))
+        playAgainText = font.render("Aperte Espaço para jogar de novo", 1, (255, 255, 255))
+        window.blit(playAgainText, ((width//2 - playAgainText.get_width()//2), height//2 + 30 ))
+
+    pygame.display.update()
 #CHAMANDO AS CLASSES----------------------------------------------------------
-ball = escolhido
+Jogador = jogador(width/2 - 50,height-100,140,20,(255,255,255))
+bola = escolhido
+bolas = [bola]
+init()
 #Loop_principal--------------------------------------------------------------
 game = True
 while game and Inicial==False:
@@ -83,4 +108,3 @@ while game and Inicial==False:
     window.fill(branco)
     window.blit(background, (0,0))
     pygame.display.update()
-gameover = False
