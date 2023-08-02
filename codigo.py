@@ -58,6 +58,8 @@ black_hole = Planetas(black_hole_img)
 baren = Planetas(baren_img)
 planetas_lista = [terra, lava, gelo, black_hole, baren, ]
 escolhido = random.choice(planetas_lista) 
+#CHAMANDO AS CLASSES----------------------------------------------------------
+ball = Planetas(escolhido)
 #Loop_principal--------------------------------------------------------------
 game = True
 while game and Inicial==False:
