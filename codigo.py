@@ -50,8 +50,8 @@ class Ball(object):
         self.w = w
         self.h = h
         self.color = color
-        self.xv = random.choice([2, 3, 4, -2, -3, -4])
-        self.yv = random.randint(3, 4)
+        self.xv = 6
+        self.yv = 6
         self.xx = self.x + self.w
         self.yy = self.y + self.h
 
