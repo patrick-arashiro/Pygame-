@@ -1,6 +1,5 @@
 import pygame
 import random
-from classe_bolas import Planetas
 from classe_blocos import Bloco
 from classe_jogador import jogador
 pygame.init()
@@ -14,19 +13,6 @@ background_inicial = pygame.image.load('startbackground.png')
 background_inicial = pygame.transform.scale(background_inicial,(width,height))
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Breakout")
-#Planetas----------------------------------------------------------------------------------
-width_planets = 25
-height_planets = 25
-terra_img = pygame.image.load('Terran.png').convert_alpha()
-terra_img = pygame.transform.scale(terra_img, (width_planets, height_planets))
-lava_img = pygame.image.load('Lava.png').convert_alpha()
-lava_img = pygame.transform.scale(lava_img,(width_planets, height_planets))
-Ice_img = pygame.image.load('Ice.png')
-Ice_img = pygame.transform.scale(Ice_img, (width_planets, height_planets))
-black_hole_img = pygame.image.load('Black_hole.png').convert_alpha()
-black_hole_img = pygame.transform.scale(black_hole_img, (width_planets, height_planets))
-baren_img = pygame.image.load('Baren.png')
-baren_img = pygame.transform.scale(baren_img, (width_planets, height_planets))
 #SOM------------------------------------------------------------------------------------------
 brickHitSound = pygame.mixer.Sound("bullet.wav")
 bounceSound = pygame.mixer.Sound("hitGameSound.wav")
@@ -56,14 +42,25 @@ while Inicial:
     pygame.display.update()
 clock = pygame.time.Clock()
 FPS = 30
-#Planetas e escolhido---------------------------------------------------
-terra = Planetas(terra_img)
-lava = Planetas(lava_img)
-gelo = Planetas(Ice_img)
-black_hole = Planetas(black_hole_img)
-baren = Planetas(baren_img)
-planetas_lista = [terra, lava, gelo, black_hole, baren, ]
-escolhido = random.choice(planetas_lista) 
+#classe Bola-------------------------------------------------------------------
+class Ball(object):
+    def __init__(self, x, y, w, h, color):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.color = color
+        self.xv = random.choice([2, 3, 4, -2, -3, -4])
+        self.yv = random.randint(3, 4)
+        self.xx = self.x + self.w
+        self.yy = self.y + self.h
+
+    def draw(self, win):
+        pygame.draw.rect(win, self.color, [self.x, self.y, self.w, self.h])
+
+    def move(self):
+        self.x += self.xv
+        self.y += self.yv
 #Funções ---------------------------------------------------------------------
 bricks = []
 def init():
@@ -95,7 +92,7 @@ def redrawGameWindow():
     pygame.display.update()
 #CHAMANDO AS CLASSES----------------------------------------------------------
 Jogador = jogador(width/2 - 50,height-100,140,20,(255,255,255))
-bola = escolhido
+bola = Ball(width/2 - 10, height - 400, 20, 20, (255, 255, 255))
 bolas = [bola]
 init()
 #Loop_principal--------------------------------------------------------------
@@ -105,6 +102,77 @@ while game and Inicial==False:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game = False
+    if not gameover:
+        for ball in bolas:
+            ball.move()
+        if pygame.mouse.get_pos()[0] - Jogador.w//2 < 0:
+            Jogador.x = 0
+        elif pygame.mouse.get_pos()[0] + Jogador.w//2 > width:
+            Jogador.x = width - Jogador.w
+        else:
+            Jogador.x = pygame.mouse.get_pos()[0] - Jogador.w //2
+
+        for ball in bolas:
+            if (ball.x >= Jogador.x and ball.x <= Jogador.x + Jogador.w) or (ball.x + ball.w >= Jogador.x and ball.x + ball.w <= Jogador.x + Jogador.w):
+                if ball.y + ball.h >= Jogador.y and ball.y + ball.h <= Jogador.y + Jogador.h:
+                    ball.yv *= -1
+                    ball.y = Jogador.y -ball.h -1
+                    bounceSound.play()
+
+            if ball.x + ball.w >= width:
+                bounceSound.play()
+                ball.xv *= -1
+            if ball.x < 0:
+                bounceSound.play()
+                ball.xv *= -1
+            if ball.y <= 0:
+                bounceSound.play()
+                ball.yv *= -1
+
+            if ball.y > height:
+                bolas.pop(bolas.index(ball))
+
+        for brick in bricks:
+            for ball in bolas:
+                if (ball.x >= brick.x and ball.x <= brick.x + brick.w) or ball.x + ball.w >= brick.x and ball.x + ball.w <= brick.x + brick.w:
+                    if (ball.y >= brick.y and ball.y <= brick.y + brick.h) or ball.y + ball.h >= brick.y and ball.y + ball.h <= brick.y + brick.h:
+                        brick.visible = False
+                        if brick.pregnant:
+                            bolas.append(Ball(brick.x, brick.y, 20, 20, (255, 255, 255)))
+                        # bricks.pop(bricks.index(brick))
+                        ball.yv *= -1
+                        brickHitSound.play()
+                        break
+
+        for brick in bricks:
+            if brick.visible == False:
+                bricks.pop(bricks.index(brick))
+
+        if len(bolas) == 0:
+            gameover = True
+
+
+    keys = pygame.key.get_pressed()
+    if len(bricks) == 0:
+        won = True
+        gameover = True
+    if gameover:
+        if keys[pygame.K_SPACE]:
+            gameover = False
+            won = False
+            ball = Ball(brick.x, brick.y, 20, 20, (255, 255, 255))
+            if len(bolas) == 0:
+                bolas.append(ball)
+
+            bricks.clear()
+            for i in range(6):
+                for j in range(10):
+                    bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, (120, 205, 250)))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    redrawGameWindow()
     window.fill(branco)
     window.blit(background, (0,0))
     pygame.display.update()
