@@ -68,7 +68,7 @@ def init():
     bricks = []
     for i in range(6):
         for j in range(10):
-            bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, (120, 205, 250)))
+            bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, cor_bloco))
 gameover = False
 def redrawGameWindow():
     window.blit(background, (0,0))
@@ -90,9 +90,19 @@ def redrawGameWindow():
         window.blit(playAgainText, ((width//2 - playAgainText.get_width()//2), height//2 + 30 ))
 
     pygame.display.update()
+#Cores------------------------------------------------------------------------
+azul = pygame.Color('blue')
+rosa = pygame.Color('deeppink')
+laranja = pygame.Color('firebrick1')
+amarelo = pygame.Color('gold')
+verde = pygame.Color('green')
+cores = [azul,laranja,rosa,amarelo,verde,branco]
+cor_jog = random.choice(cores)
+cor_bola = random.choice(cores)
+cor_bloco = random.choice(cores)
 #CHAMANDO AS CLASSES----------------------------------------------------------
-Jogador = jogador(width/2 - 50,height-100,140,20,(255,255,255))
-bola = Ball(width/2 - 10, height - 400, 20, 20, (255, 255, 255))
+Jogador = jogador(width/2 - 50,height-100,140,20,cor_jog)
+bola = Ball(width/2 - 10, height - 400, 20, 20, cor_bola)
 bolas = [bola]
 init()
 #Loop_principal--------------------------------------------------------------
