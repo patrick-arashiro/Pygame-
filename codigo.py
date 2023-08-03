@@ -3,10 +3,10 @@ import random
 from classe_blocos import Bloco
 from classe_jogador import jogador
 pygame.init()
-
+#Dimensões-----------------------------------------------------------------------------------
 width = 800
 height = 800
-
+#Background----------------------------------------------------------------------------------
 background = pygame.image.load('stars.png')
 background = pygame.transform.scale(background, (width,height))
 background_inicial = pygame.image.load('startbackground.png')
@@ -16,6 +16,7 @@ pygame.display.set_caption("Breakout")
 #SOM------------------------------------------------------------------------------------------
 brickHitSound = pygame.mixer.Sound("bullet.wav")
 bounceSound = pygame.mixer.Sound("hitGameSound.wav")
+background_sound = pygame.mixer.Sound('background_music.wav')
 bounceSound.set_volume(.2)
 #TEXTO_TELA_INICIAL-----------------------------------------------------------------------------------
 branco = pygame.Color('grey100')
@@ -39,7 +40,9 @@ while Inicial:
     window.blit(ini_txt, (200, 100 ))
     window.blit(Barra_txt, (30, 500))
     window.blit(Barra2_txt, (90, 600))
+    background_sound.play()
     pygame.display.update()
+
 clock = pygame.time.Clock()
 FPS = 30
 #classe Bola-------------------------------------------------------------------
@@ -68,6 +71,7 @@ def init():
     bricks = []
     for i in range(6):
         for j in range(10):
+            cor_bloco = random.choice(cores)
             bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, cor_bloco))
 gameover = False
 def redrawGameWindow():
@@ -107,6 +111,7 @@ bolas = [bola]
 init()
 #Loop_principal--------------------------------------------------------------
 game = True
+background_sound.stop()
 while game and Inicial==False:
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -148,7 +153,8 @@ while game and Inicial==False:
                     if (ball.y >= brick.y and ball.y <= brick.y + brick.h) or ball.y + ball.h >= brick.y and ball.y + ball.h <= brick.y + brick.h:
                         brick.visible = False
                         if brick.pregnant:
-                            bolas.append(Ball(brick.x, brick.y, 20, 20, (255, 255, 255)))
+                            cor_bola = random.choice(cores)
+                            bolas.append(Ball(brick.x, brick.y, 20, 20, cor_bola))
                         #bricks.pop(bricks.index(brick))
                         ball.yv *= -1
                         brickHitSound.play()
@@ -170,6 +176,7 @@ while game and Inicial==False:
         if keys[pygame.K_SPACE]:
             gameover = False
             won = False
+            cor_bola = random.choice(cores)
             bola = Ball(width/2 - 10, height - 400, 20, 20, cor_bola)
             bolas = [bola]
             if len(bolas) == 0:
@@ -178,11 +185,11 @@ while game and Inicial==False:
             bricks.clear()
             for i in range(6):
                 for j in range(10):
+                    cor_bloco = random.choice(cores)
                     bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, cor_bloco))
     redrawGameWindow()
     window.fill(branco)
     window.blit(background, (0,0))
-    # pygame.display.update()
 
 #Texto final--------------------------------------------------
 final_txt = Inicio_font.render('Bom Jogo!', False, branco)
@@ -190,6 +197,7 @@ final1_txt = Inicio_font.render('Volte novamente!', False, branco)
 final2_txt = Inicio_font.render('Até mais!', False, branco)
 #Tela Final----------------------------------
 final = True
+background_sound.play()
 while final:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
