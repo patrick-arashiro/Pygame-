@@ -186,3 +186,23 @@ while game and Inicial==False:
     window.fill(branco)
     window.blit(background, (0,0))
     # pygame.display.update()
+
+#Texto final--------------------------------------------------
+final_txt = Inicio_font.render('Bom Jogo!', False, branco)
+final1_txt = Inicio_font.render('Volte novamente!', False, branco)
+final2_txt = Inicio_font.render('Até mais!', False, branco)
+#Tela Final----------------------------------
+final = True
+while final:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            final = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                final = False
+    window.fill(branco)
+    window.blit(background_inicial,(0,0))
+    window.blit(final_txt, (200, 100 ))
+    window.blit(final1_txt, (30, 500))
+    window.blit(final2_txt, (90, 600))
+    pygame.display.update()
