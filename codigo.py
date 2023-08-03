@@ -78,15 +78,15 @@ def redrawGameWindow():
     for b in bricks:
         b.draw(window)
 
-    font = pygame.font.SysFont('comicsans', 50)
+    fonte = pygame.font.Font('Kaph-Italic.ttf', 25)
 
     if gameover:
         if len(bricks) == 0:
-            resText = font.render("Parabéns!", 1, (255, 255, 255))
+            resText = fonte.render("Parabéns!", 1, (255, 255, 255))
         else:
-            resText = font.render("Perdeu!", 1, (255, 255, 255))
+            resText = fonte.render("Perdeu!", 1, (255, 255, 255))
         window.blit(resText, ((width//2 - resText.get_width()//2), height//2 - resText.get_height()//2))
-        playAgainText = font.render("Aperte Espaço para jogar de novo", 1, (255, 255, 255))
+        playAgainText = fonte.render("Aperte Espaço para jogar de novo", 1, (255, 255, 255))
         window.blit(playAgainText, ((width//2 - playAgainText.get_width()//2), height//2 + 30 ))
 
     pygame.display.update()
@@ -149,7 +149,7 @@ while game and Inicial==False:
                         brick.visible = False
                         if brick.pregnant:
                             bolas.append(Ball(brick.x, brick.y, 20, 20, (255, 255, 255)))
-                        bricks.pop(bricks.index(brick))
+                        #bricks.pop(bricks.index(brick))
                         ball.yv *= -1
                         brickHitSound.play()
                         break
