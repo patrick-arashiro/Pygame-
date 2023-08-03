@@ -25,3 +25,7 @@ O jogo tem uma plataforma na parte de baixo que tem a função de nao deixar as 
 - Patrick Arashiro
 - Raphael Saad
 - Ricardo Yuh
+
+# Link dos videos
+- Parte 1: https://youtube.com/shorts/WwlGR8GDg8M?feature=share
+- Parte 2: https://youtube.com/shorts/yM-30hi6VuY?feature=share
