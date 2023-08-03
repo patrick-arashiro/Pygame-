@@ -50,13 +50,13 @@ class Ball(object):
         self.w = w
         self.h = h
         self.color = color
-        self.xv = 6
+        self.xv = random.randint(-6,6)
         self.yv = 6
         self.xx = self.x + self.w
         self.yy = self.y + self.h
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, [self.x, self.y, self.w, self.h])
+        pygame.draw.circle(win, self.color, [self.x, self.y],12,6)
 
     def move(self):
         self.x += self.xv
@@ -170,18 +170,15 @@ while game and Inicial==False:
         if keys[pygame.K_SPACE]:
             gameover = False
             won = False
-            ball = Ball(brick.x, brick.y, 20, 20, (255, 255, 255))
+            bola = Ball(width/2 - 10, height - 400, 20, 20, cor_bola)
+            bolas = [bola]
             if len(bolas) == 0:
-                bolas.append(ball)
+                bolas.append(bola)
 
             bricks.clear()
             for i in range(6):
                 for j in range(10):
-                    bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, (120, 205, 250)))
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game = False
+                    bricks.append(Bloco(10 + j * 79, 50 + i * 35, 70, 25, cor_bloco))
     redrawGameWindow()
     window.fill(branco)
     window.blit(background, (0,0))
