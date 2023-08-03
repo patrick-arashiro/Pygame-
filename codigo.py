@@ -149,7 +149,7 @@ while game and Inicial==False:
                         brick.visible = False
                         if brick.pregnant:
                             bolas.append(Ball(brick.x, brick.y, 20, 20, (255, 255, 255)))
-                        # bricks.pop(bricks.index(brick))
+                        bricks.pop(bricks.index(brick))
                         ball.yv *= -1
                         brickHitSound.play()
                         break
@@ -181,8 +181,8 @@ while game and Inicial==False:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            game = False
     redrawGameWindow()
     window.fill(branco)
     window.blit(background, (0,0))
-    pygame.display.update()
+    # pygame.display.update()
